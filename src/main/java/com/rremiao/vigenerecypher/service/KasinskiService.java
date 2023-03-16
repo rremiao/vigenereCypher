@@ -62,12 +62,12 @@ public class KasinskiService {
         }
 
         String s = plaintext.toString();
-        String key =  String.valueOf(s.charAt(5)) 
-                    + String.valueOf(s.charAt(10)) 
-                    + String.valueOf(s.charAt(20)) 
-                    + String.valueOf(s.charAt(35))  
-                    + String.valueOf(s.charAt(53))  
-                    + String.valueOf(s.charAt(6));
+        String key =  String.valueOf(ciphertext.charAt(4)) 
+                    + String.valueOf(ciphertext.charAt(9)) 
+                    + String.valueOf(ciphertext.charAt(19)) 
+                    + String.valueOf(ciphertext.charAt(34))  
+                    + String.valueOf(ciphertext.charAt(52))  
+                    + String.valueOf(ciphertext.charAt(5));
 
         System.out.println("Possible keyword: " + key);
         VigenereCypherDTO vigenereCypher = new VigenereCypherDTO(key.toUpperCase());
