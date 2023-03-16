@@ -14,7 +14,10 @@ public class TriggerService {
     @Autowired
     DecryptService decryptService;
 
-    public void startApplication() {
+    @Autowired
+    KasinskiService kasinskiService;
+
+    public void baseApplication() {
         String key = "LEMON";
         VigenereCypherDTO vigenereCypher = new VigenereCypherDTO(key);
         String plaintext = "ATTACKATDAWN";
