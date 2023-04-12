@@ -3,6 +3,7 @@ package com.rremiao.vigenerecypher;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.rremiao.vigenerecypher.service.CoincidenceIndex;
-import com.rremiao.vigenerecypher.service.TriggerService;
 
 @SpringBootApplication
 public class VigenerecypherApplication implements CommandLineRunner {
-
-	@Autowired
-	TriggerService triggerService;
 
 	@Autowired
 	CoincidenceIndex coincidenceIndexService;
@@ -50,7 +47,11 @@ public class VigenerecypherApplication implements CommandLineRunner {
 		String cipherText = readCipherTextFromFile(absolutePath);
 
 		if (cipherText != null) {
-			System.out.println(coincidenceIndexService.decrypt(cipherText));
+			String decryptedText = coincidenceIndexService.decrypt(cipherText);
+
+			FileWriter writer = new FileWriter("decrypted.txt");
+			writer.write(decryptedText);
+			writer.close();
 		}
 	}
 

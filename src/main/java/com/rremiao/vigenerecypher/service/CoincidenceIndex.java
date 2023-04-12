@@ -15,7 +15,7 @@ public class CoincidenceIndex {
     EncryptService encryptService;
 
     private static final int ALPHABET_SIZE = 26;
-    private static final double[] PORTUGUESE_LETTER_FREQUENCIES = {
+    private static final double[] LETTER_FREQUENCIES = {
             0.1463, 0.0104, 0.0388, 0.0499, 0.1257, 0.0102, 0.013, 0.0128, 0.0618, 0.004, 0.0002,
             0.0278, 0.0474, 0.0505, 0.1073, 0.0252, 0.012, 0.0653, 0.0781, 0.0434, 0.0463, 0.0167,
             0.0001, 0.0021, 0.0001, 0.0047
@@ -24,6 +24,7 @@ public class CoincidenceIndex {
     public String decrypt(String ciphertext) {
         int keyLength = findKeyLength(ciphertext);
         String key = findKey(ciphertext, keyLength);
+        System.out.println("Key:" + key);
         return DecryptService.decryptText(ciphertext, key);
     }
 
@@ -76,7 +77,7 @@ public class CoincidenceIndex {
         double[] shiftedFrequencies = new double[ALPHABET_SIZE];
         for (int i = 0; i < ALPHABET_SIZE; i++) {
             for (int j = 0; j < ALPHABET_SIZE; j++) {
-                shiftedFrequencies[i] += letterFrequencies[(j + i) % ALPHABET_SIZE] * PORTUGUESE_LETTER_FREQUENCIES[j];
+                shiftedFrequencies[i] += letterFrequencies[(j + i) % ALPHABET_SIZE] * LETTER_FREQUENCIES[j];
             }
         }
         return indexOfMaxValue(shiftedFrequencies);
