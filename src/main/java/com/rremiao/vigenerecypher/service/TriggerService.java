@@ -15,18 +15,18 @@ public class TriggerService {
     DecryptService decryptService;
 
     @Autowired
-    KasinskiService kasinskiService;
+    CoincidenceIndex kasinskiService;
 
-    public void baseApplication() {
-        String key = "LEMON";
-        VigenereCypherDTO vigenereCypher = new VigenereCypherDTO(key);
-        String plaintext = "ATTACKATDAWN";
+    // public void baseApplication() {
+    //     String key = "LEMON";
+    //     VigenereCypherDTO vigenereCypher = new VigenereCypherDTO(key);
+    //     String plaintext = "ATTACKATDAWN";
 
-        String ciphertext = encryptService.encrypt(plaintext, vigenereCypher);
-        String decrypted = decryptService.decrypt(ciphertext, vigenereCypher);
+    //     String ciphertext = encryptService.encrypt(plaintext, vigenereCypher);
+    //     String decrypted = decryptService.decrypt(ciphertext, vigenereCypher);
 
-        System.out.println("Plaintext: " + plaintext);
-        System.out.println("Ciphertext: " + ciphertext);
-        System.out.println("Decrypted text: " + decrypted);
-    }
+    //     System.out.println("Plaintext: " + plaintext);
+    //     System.out.println("Ciphertext: " + ciphertext);
+    //     System.out.println("Decrypted text: " + decrypted);
+    // }
 }

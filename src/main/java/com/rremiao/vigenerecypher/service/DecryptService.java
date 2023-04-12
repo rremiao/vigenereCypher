@@ -12,57 +12,83 @@ import com.rremiao.vigenerecypher.domain.dto.VigenereCypherDTO;
 
 @Service
 public class DecryptService {
-    public String decrypt(String cipherText, VigenereCypherDTO vigenereCypher) {
-        String plainText = "";
-        int pos = 0;
+    private static int AlphabetSize = 26;
 
-        for (int i = 0; i < cipherText.length(); i++) {
-            char charText = cipherText.charAt(i);
-
-            if (charText >= 'A' && charText <= 'Z') {
-                int moves = vigenereCypher.getKey().charAt(pos) - 'A';
-                charText = (char) ((charText - moves - 'A' + 26) % 26 + 'A');
-                pos = (pos + 1) % vigenereCypher.getKey().length();
+    public static String decryptText(String ciphertext, String key) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ciphertext.length(); i++) {
+            char c = ciphertext.charAt(i);
+            if (Character.isLetter(c)) {
+                int shift = key.charAt(i % key.length()) - 'a';
+                char p = (char) ((c - shift - 'a' + AlphabetSize) % AlphabetSize + 'a');
+                sb.append(p);
+            } else {
+                sb.append(c);
             }
-
-            plainText += charText;
         }
-        return plainText;
+        return sb.toString();
     }
-    public String breakCipher(String ciphertext) {
+
+    public List<Integer> breakCipher(String ciphertext) {
         Map<Character, Integer> frequencyMap = new HashMap<>();
-    
+
         for (char c : ciphertext.toCharArray()) {
             if (!Character.isLetter(c)) {
                 continue;
             }
-            c = Character.toLowerCase(c);
+            c = Character.toUpperCase(c);
             if (!frequencyMap.containsKey(c)) {
                 frequencyMap.put(c, 0);
             }
             frequencyMap.put(c, frequencyMap.get(c) + 1);
         }
-    
+
         List<Map.Entry<Character, Integer>> sortedList = new ArrayList<>(frequencyMap.entrySet());
         sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-    
-        Map<Character, Character> mapping = new HashMap<>();
-        String expectedFrequency = "etaoinshrdlucmfwypvbgkqjxz";
+
+        List<Integer> shifts = new ArrayList<>();
         for (int i = 0; i < sortedList.size(); i++) {
             char c = sortedList.get(i).getKey();
-            mapping.put(c, expectedFrequency.charAt(i));
+            int shift = (c - 'E' + 26) % 26;
+            shifts.add(shift);
         }
-    
-        StringBuilder plaintext = new StringBuilder();
-        for (char c : ciphertext.toCharArray()) {
-            if (!Character.isLetter(c)) {
-                plaintext.append(c);
-            } else {
-                c = Character.toLowerCase(c);
-                plaintext.append(mapping.get(c));
-            }
-        }
-        return plaintext.toString();
+        return shifts;
     }
+
+    // public String breakCipher(String ciphertext) {
+    //     Map<Character, Integer> frequencyMap = new HashMap<>();
+    
+    //     for (char c : ciphertext.toCharArray()) {
+    //         if (!Character.isLetter(c)) {
+    //             continue;
+    //         }
+    //         c = Character.toLowerCase(c);
+    //         if (!frequencyMap.containsKey(c)) {
+    //             frequencyMap.put(c, 0);
+    //         }
+    //         frequencyMap.put(c, frequencyMap.get(c) + 1);
+    //     }
+    
+    //     List<Map.Entry<Character, Integer>> sortedList = new ArrayList<>(frequencyMap.entrySet());
+    //     sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+    
+    //     Map<Character, Character> mapping = new HashMap<>();
+    //     String expectedFrequency = "etaoinshrdlucmfwypvbgkqjxz";
+    //     for (int i = 0; i < sortedList.size(); i++) {
+    //         char c = sortedList.get(i).getKey();
+    //         mapping.put(c, expectedFrequency.charAt(i));
+    //     }
+    
+    //     StringBuilder plaintext = new StringBuilder();
+    //     for (char c : ciphertext.toCharArray()) {
+    //         if (!Character.isLetter(c)) {
+    //             plaintext.append(c);
+    //         } else {
+    //             c = Character.toLowerCase(c);
+    //             plaintext.append(mapping.get(c));
+    //         }
+    //     }
+    //     return plaintext.toString();
+    // }
     
 }
